@@ -3,7 +3,20 @@ import React from "react";
 
 import { IoLogoGoogle } from "react-icons/io";
 
+import { auth } from "@/firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 const Login = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error, "signInWithEmailAndPassword failed");
+    }
+  };
   return (
     <div className="h-[100vh] flex justify-center items-center bg-c1">
       <div className="flex items-center flex-col">
@@ -28,7 +41,10 @@ const Login = () => {
           <span className="w-5 h-[1px] bg-c3"></span>
         </div>
 
-        <form className="flex flex-col items-center gap-3 w-[500px] mt-5">
+        <form
+          className="flex flex-col items-center gap-3 w-[500px] mt-5"
+          onSubmit={handleSubmit}
+        >
           <input
             type="email"
             placeholder="Email"
@@ -44,12 +60,19 @@ const Login = () => {
           <div className="text-right w-full text-c3">
             <span>Forgot Password?</span>
           </div>
-          <button className="mt-4 w-full h-14 rounded-xl outline-none text-base font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">Login to Your Account</button>
+          <button className="mt-4 w-full h-14 rounded-xl outline-none text-base font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            Login to Your Account
+          </button>
         </form>
         <div className="flex justify-center gap-1 text-c3 mt-5">
-            <span>Not a Member yet?</span>
-            
-            <Link className="font-semibold text-white underline underline-offset-2 cursor-pointer" href="/register">Register Now</Link>
+          <span>Not a Member yet?</span>
+
+          <Link
+            className="font-semibold text-white underline underline-offset-2 cursor-pointer"
+            href="/register"
+          >
+            Register Now
+          </Link>
         </div>
       </div>
     </div>
